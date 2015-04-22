@@ -106,6 +106,80 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/22/分析iOS-App-crash日志/">
+                分析iOS App crash日志
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-04-22
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <p>转载自:<a href="http://blog.csdn.net/totogo2010/article/details/39892467" target="_blank" rel="external">http://blog.csdn.net/totogo2010/article/details/39892467</a></p>
+<p>要分析崩溃日志，首先需要保留发布时的编译出来的.xcarchive文件。这个文件包含了.DSYM文件。<br>我一般的做法是，发布成功后，把这个文件.xcarchive直接提交到代码版本库对应的版本分支里，这样就不会搞丢了。<br>这个文件在哪呢？打开XCode-&gt;菜单Window-&gt;Organizer，在编译成功的文件上右键，就能打开了。</p>
+<h3 id="第一种方法">第一种方法</h3><p>使用dwarfdump命令<br>dwarfdump —uuid xx.app.dSYM     用来得到app的UUID。<br>dwarfdump —lookup 0x12b45d -arch armv7 xx.app.dSYM  使错误的日志能看懂，把相应的内存地址对应到正确的地方。<br>如果一开始dwarfdump命令不能用的话，要先装Command Line Tools,这个在设置里面能下载（cmd+“，”打开设置）。另外还必须在进入.DSYM所在文件夹。<br>使用dwarfdump需要安装Command Line Tools,XCode里设置下载。而且需要进入.DSYM所在文件夹里进行操作。</p>
+<h3 id="第二种方法">第二种方法</h3><p>使用xcrun atos命令<br>atos -o YourApp.app.dSYM/Contents/Resources/DWARF/YourApp 0x00062867</p>
+<h3 id="第三种方法">第三种方法</h3><p>dSYM 文件分析工具 <a href="http://answerhuang.duapp.com/index.php/2014/07/06/dsym_tool/" target="_blank" rel="external">http://answerhuang.duapp.com/index.php/2014/07/06/dsym_tool/</a><br>这是这位博主answer-huang开发了一个工具，专门用来快速定位崩溃日志的代码。感谢这位仁兄的提供这么方便的工具。<br>工具代码还是开源的：<a href="https://github.com/answer-huang/dSYMTools" target="_blank" rel="external">https://github.com/answer-huang/dSYMTools</a><br>工具下载地址：<a href="http://pan.baidu.com/s/1bnkxPvT" target="_blank" rel="external">http://pan.baidu.com/s/1bnkxPvT</a><br>百度网盘的下载地址容易失效，我上传csdn下载里，当然是免积分下载了。</p>
+
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/iOS/">
+                #iOS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/19/hexo-sample/">
                 Hexo-Sample
               </a>
@@ -403,11 +477,11 @@
       <p class="site-description motion-element">程序员,iOS,Android,产品</p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-count">3</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">

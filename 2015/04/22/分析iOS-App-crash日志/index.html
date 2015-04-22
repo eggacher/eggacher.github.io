@@ -20,9 +20,9 @@
 
 
 
-	<meta name="keywords" content="django,python," />
+	<meta name="keywords" content="iOS," />
 
-  <title> django管理后台中文支持 // 蛋疼的程序猿 </title>
+  <title> 分析iOS App crash日志 // 蛋疼的程序猿 </title>
 </head>
 
 <body>
@@ -93,7 +93,7 @@
           
           
             
-              django管理后台中文支持
+              分析iOS App crash日志
             
           
         </h1>
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-03-22
+              发表于 2015-04-22
             
           </span>
         
@@ -118,11 +118,11 @@
         
 
         
-          <p>很久没有碰django,今天尝试用django搭建一后台系统，惊喜地发现，django后台居然支持中文。<br>开始是这样的,我在某models.py文件了加了点中文的注释，系统提示编译不通过，我去到settings.py里，将LANGUAGE_CODE作了修改:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LANGUAGE_CODE = <span class="string">'zh-CN'</span></span><br></pre></td></tr></table></figure></p>
-<p>（ps:中文导致编译不通过是因为没有在py文件开头加 #coding=utf-8）</p>
-<p>重新编译，进入后台，发现后台的英文界面变成中文了。<br>然后我继续修改models.py,admins.py,编译生成后，新建的models还是英文的。<br>我的想法是肯定是有某种写法，可以让我新建的Model有别名显示，网上搜了下，改来代码如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> coding=utf-<span class="number">8</span></span><br><span class="line">from django.db import models</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"><span class="comment"># 用户表</span></span><br><span class="line">class User(models.Model):</span><br><span class="line">    username = models.CharField(max_length = <span class="number">32</span>,verbose_name=u<span class="string">"用户名"</span>)</span><br><span class="line">    total_integral = models.IntegerField(verbose_name=u<span class="string">"累计积分"</span>)</span><br><span class="line">    current_integral = models.IntegerField(verbose_name=u<span class="string">"当前积分"</span>)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = u<span class="string">"玩家"</span></span><br><span class="line">        verbose_name_plural = u<span class="string">"玩家"</span></span><br></pre></td></tr></table></figure>
-<p>verbose_name 表示是别名，可以在filed、foreignkey、meta等地方用到；<br>verbose_name_plural 影响后台表名的显示结果 </p>
+          <p>转载自:<a href="http://blog.csdn.net/totogo2010/article/details/39892467" target="_blank" rel="external">http://blog.csdn.net/totogo2010/article/details/39892467</a></p>
+<p>要分析崩溃日志，首先需要保留发布时的编译出来的.xcarchive文件。这个文件包含了.DSYM文件。<br>我一般的做法是，发布成功后，把这个文件.xcarchive直接提交到代码版本库对应的版本分支里，这样就不会搞丢了。<br>这个文件在哪呢？打开XCode-&gt;菜单Window-&gt;Organizer，在编译成功的文件上右键，就能打开了。</p>
+<h3 id="第一种方法">第一种方法</h3><p>使用dwarfdump命令<br>dwarfdump —uuid xx.app.dSYM     用来得到app的UUID。<br>dwarfdump —lookup 0x12b45d -arch armv7 xx.app.dSYM  使错误的日志能看懂，把相应的内存地址对应到正确的地方。<br>如果一开始dwarfdump命令不能用的话，要先装Command Line Tools,这个在设置里面能下载（cmd+“，”打开设置）。另外还必须在进入.DSYM所在文件夹。<br>使用dwarfdump需要安装Command Line Tools,XCode里设置下载。而且需要进入.DSYM所在文件夹里进行操作。</p>
+<h3 id="第二种方法">第二种方法</h3><p>使用xcrun atos命令<br>atos -o YourApp.app.dSYM/Contents/Resources/DWARF/YourApp 0x00062867</p>
+<h3 id="第三种方法">第三种方法</h3><p>dSYM 文件分析工具 <a href="http://answerhuang.duapp.com/index.php/2014/07/06/dsym_tool/" target="_blank" rel="external">http://answerhuang.duapp.com/index.php/2014/07/06/dsym_tool/</a><br>这是这位博主answer-huang开发了一个工具，专门用来快速定位崩溃日志的代码。感谢这位仁兄的提供这么方便的工具。<br>工具代码还是开源的：<a href="https://github.com/answer-huang/dSYMTools" target="_blank" rel="external">https://github.com/answer-huang/dSYMTools</a><br>工具下载地址：<a href="http://pan.baidu.com/s/1bnkxPvT" target="_blank" rel="external">http://pan.baidu.com/s/1bnkxPvT</a><br>百度网盘的下载地址容易失效，我上传csdn下载里，当然是免积分下载了。</p>
 
         
       </div>
@@ -133,12 +133,8 @@
         
           <div class="post-tags">
             
-              <a href="/tags/django/">
-                #django
-              </a>
-            
-              <a href="/tags/python/">
-                #python
+              <a href="/tags/iOS/">
+                #iOS
               </a>
             
           </div>
@@ -148,13 +144,11 @@
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/04/19/hello-world/">Hello World</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/03/13/hi-I-m-back/">hi,I'm back</a>
+                <a href="/2015/04/19/hexo-sample/">Hexo-Sample</a>
               
             </div>
           </div>
@@ -233,7 +227,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一种方法"><span class="nav-number">1.</span> <span class="nav-text">第一种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二种方法"><span class="nav-number">2.</span> <span class="nav-text">第二种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三种方法"><span class="nav-number">3.</span> <span class="nav-text">第三种方法</span></a></li></ol>
       </div>
     
   </div>
